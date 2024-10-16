@@ -1,22 +1,39 @@
-export public class UsuarioModel {
-    private nome: string;
-    private email: string;
-    private telefone: string;
-    private endereco: string;
-    private tipo: string;
+import * as readlineSync from 'readline-sync';
+import { IUsuario } from '../interfaces/Usuario';
 
-    public cadastrar(nome: string, email: string, telefone: string, endereco: string, tipo: string) {
-    }
+export class UsuarioModel {
+    private usuarios: IUsuario[] = [];
     
+    public verificar_cadastro(usuario: IUsuario) {
+        const emailCadastrado = this.usuarios.find(u => u.email === usuario.email);
+        
+        if (emailCadastrado) {
+            
+            return false; // Cadastro falhou
+        }
+        
+        return true; // Email está disponível
+        
+    }
+   
+    public cadastrar(usuario: IUsuario) {
+        this.usuarios.push(usuario);
+    }
+
+    public login() {
+    }
+
     public editar() {
     }
-    
+
     public remover() {
     }
 
-    public realizar_login() {
+    public getUsuarios(): IUsuario[] {
+        return this.usuarios;
     }
-        
+
+
     // JogoController
     public iniciar(): void {
         let opcao: string;
@@ -29,9 +46,9 @@ export public class UsuarioModel {
             console.log("5 - Editar jogo (ADMIN)");
             console.log("6 - Remover jogo (ADMIN)");
             console.log("10 - Sair");
-    
+
             opcao = readlineSync.question("Escolha uma opcao: ");
-    
+
             switch (opcao) {
                 case '1':
                     console.log("1");
@@ -45,6 +62,6 @@ export public class UsuarioModel {
                 default:
                     console.log("Opção inválida. Tente novamente.");
             }
-        } while (opcao !== '10'); 
+        } while (opcao !== '10');
     }
 }
