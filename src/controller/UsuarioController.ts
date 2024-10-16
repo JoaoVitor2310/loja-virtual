@@ -21,11 +21,14 @@ export abstract class UsuarioController {
         this.model.cadastrar(usuario);
         this.view.mostrar_usuario_criado(usuario);
     }
-
+    
     // this.view.mostrar_usuarios(this.model.getUsuarios());
-    // public login(): void {
-    //     console.log('login');
-    // }
+    public login(usuario: Partial<IUsuario>): void {
+        if (!this.model.login(usuario)){
+            this.view.login_incorreto();
+        }
+        this.view.login_completo(usuario);
+    }
 
     // public editar(): void {
     //     console.log('cadastrar');
@@ -36,40 +39,48 @@ export abstract class UsuarioController {
 
     public iniciar(): void {
         let opcao: string;
+        let continuarMenu = true;
         do {
-            console.log("\n==== Loja de Jogos ====");
+            console.log("\n==== Menu de USUARIO ====");
             console.log("1 - Cadastrar");
             console.log("2 - Login");
             console.log("3 - Editar");
             console.log("4 - Remover");
-            console.log("5 - Listar usuários");
+            // console.log("5 - Listar usuários");
             console.log("10 - Sair");
 
             opcao = readlineSync.question("Escolha uma opcao: ");
 
             switch (opcao) {
-                case '1':
+                case '1': {
                     console.log("1");
                     const nome = readlineSync.question("Digite o seu nome: ");
                     const email = readlineSync.question("Digite o seu email: ");
+                    const senha = readlineSync.question("Digite o seu senha: ");
                     const telefone = readlineSync.question("Digite o seu telefone: ");
 
-                    const usuario: IUsuario = { nome, email, telefone, tipo: this.tipo };
+                    const usuario = { nome, email, senha, telefone, tipo: this.tipo };
                     this.cadastrar(usuario);
                     break;
-                case '2':
-                    console.log("1");
+                }
+                case '2': {
+                    const email = readlineSync.question("Digite o seu email: ");
+                    const senha = readlineSync.question("Digite o seu senha: ");
+
+                    const usuario = { email, senha };
+                    this.login(usuario);
                     break;
+                }
                 case '5':
                     console.log("1");
                     console.log(this.model.getUsuarios());
                     break;
                 case '10':
-                    console.log("Saindo...");
-                    break;
+                    console.log("Voltando para menu principal...");
+                    return;
                 default:
                     console.log("Opção inválida. Tente novamente.");
             }
-        } while (opcao !== '10');
+        } while (continuarMenu);
     }
 }

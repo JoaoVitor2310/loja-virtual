@@ -16,4 +16,12 @@ export class UsuarioView {
     public email_repetido() {
         console.log('Email ja cadastrado! Tente novamente.');
     }
+    
+    public login_incorreto() {
+        console.log('Login incorreto! Tente novamente.');
+    }
+    
+    public login_completo(usuario: Partial<IUsuario>) {
+        console.log(`Usuário ${usuario.email} logado com sucesso!`);
+    }
 }

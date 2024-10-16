@@ -20,7 +20,10 @@ export class UsuarioModel {
         this.usuarios.push(usuario);
     }
 
-    public login() {
+    public login(usuario: Partial<IUsuario>) {
+        const login = this.usuarios.find(u => u.email === usuario.email && u.senha === usuario.senha);
+        if (!login) return false;
+        return true;
     }
 
     public editar() {
