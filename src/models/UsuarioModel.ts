@@ -3,19 +3,19 @@ import { IUsuario } from '../interfaces/Usuario';
 
 export class UsuarioModel {
     private usuarios: IUsuario[] = [];
-    
+
     public verificar_cadastro(usuario: IUsuario) {
         const emailCadastrado = this.usuarios.find(u => u.email === usuario.email);
-        
+
         if (emailCadastrado) {
-            
+
             return false; // Cadastro falhou
         }
-        
-        return true; // Email está disponível
-        
+
+        return true; // Email disponível
+
     }
-   
+
     public cadastrar(usuario: IUsuario) {
         this.usuarios.push(usuario);
     }
