@@ -1,7 +1,7 @@
 import * as readlineSync from 'readline-sync';
-import { IJogo } from '../interfaces/Jogo';
 import { JogoModel } from '../models/JogoModel';
 import { JogoView } from '../views/JogoView';
+import { Jogo } from '../models/Jogo';
 
 export class JogoController {
     private model: JogoModel;
@@ -12,7 +12,8 @@ export class JogoController {
         this.model = model;
         this.view = view;
     }
-    public cadastrar_jogo(jogo: IJogo): void {
+    public cadastrar_jogo(id: number, titulo: string, desenvolvedora: string, plataforma: string, data_lancamento: string, preco: number, descricao: string, quantidade: number): void {
+        const jogo = new Jogo(id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
         this.model.cadastrar(jogo);
         this.view.mostrar_jogo_criado(jogo);
     }
@@ -22,33 +23,28 @@ export class JogoController {
     }
 
     public list_jogo(id: number): void {
-        const jogo = this.model.list_jogo(id)
+        const jogo = this.model.list_jogo(id);
         if (!jogo) {
             this.view.jogo_nao_encontrado(id);
             return;
         }
-
         this.view.list_jogo(jogo);
     }
-    
+
     public deletar_jogo(id: number): void {
-        const jogo = this.model.list_jogo(id)
-        if (!jogo) {
-            this.view.jogo_nao_encontrado(id);
-            return;
-        }
         this.model.deletar_jogo(id)
         this.view.jogo_deletado(id);
     }
-    
-    public editar_jogo(jogo: IJogo): void {
-        const jogoExiste = this.model.list_jogo(jogo.id)
+
+    public editar_jogo(id: number, titulo: string, desenvolvedora: string, plataforma: string, data_lancamento: string, preco: number, descricao: string, quantidade: number): void {
+        const jogoExiste = this.model.list_jogo(id);
         if (!jogoExiste) {
-            this.view.jogo_nao_encontrado(jogo.id);
+            this.view.jogo_nao_encontrado(id);
             return;
         }
-        this.model.editar_jogo(jogo)
-        this.view.jogo_editado(jogo.id);
+        const jogoEditado = new Jogo(id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
+        this.model.editar_jogo(jogoEditado);
+        this.view.jogo_editado(id);
     }
 
     public iniciar(): void {
@@ -82,8 +78,7 @@ export class JogoController {
                     const preco = Number(readlineSync.question("Qual eh o preco do jogo? "));
                     const descricao = readlineSync.question("Qual eh o descricao do jogo? ");
                     const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
-                    const jogo = { id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade };
-                    this.cadastrar_jogo(jogo);
+                    this.cadastrar_jogo(id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
                     break;
                 }
                 case '4': {
@@ -95,8 +90,7 @@ export class JogoController {
                     const preco = Number(readlineSync.question("Qual eh o preco do jogo? "));
                     const descricao = readlineSync.question("Qual eh o descricao do jogo? ");
                     const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
-                    const jogo = { id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade };
-                    this.editar_jogo(jogo);
+                    this.editar_jogo(id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
                     break;
                 }
                 case '5': {

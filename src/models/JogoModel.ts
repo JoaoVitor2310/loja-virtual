@@ -1,43 +1,32 @@
+//     {
+//     id: 1,
+//     titulo: 'GTA V',
+//     desenvolvedora: 'Rockstar Games',
+//     plataforma: 'PC',
+//     data_lancamento: '2013-09-17',
+//     preco: 99.90,
+//     descricao: 'Jogo de ação nos tempos atuais',
+//     quantidade: 10
+// }, {
+//     id: 2,
+//     titulo: 'Red Dead Redemption 2',
+//     desenvolvedora: 'Rockstar Games',
+//     plataforma: 'PC',
+//     data_lancamento: '2018-10-26',
+//     preco: 199.90,
+//     descricao: 'Jogo de velho oeste',
+//     quantidade: 20
+// }
+
+
 import * as readlineSync from 'readline-sync';
-import { IJogo } from '../interfaces/Jogo';
+import { Jogo } from './Jogo';
 
 export class JogoModel {
-    private jogos: IJogo[] = [{
-        id: 1,
-        titulo: 'GTA V',
-        desenvolvedora: 'Rockstar Games',
-        plataforma: 'PC',
-        data_lancamento: '2013-09-17',
-        preco: 99.90,
-        descricao: 'Jogo de ação nos tempos atuais',
-        quantidade: 10
-    }, {
-        id: 2,
-        titulo: 'Red Dead Redemption 2',
-        desenvolvedora: 'Rockstar Games',
-        plataforma: 'PC',
-        data_lancamento: '2018-10-26',
-        preco: 199.90,
-        descricao: 'Jogo de velho oeste',
-        quantidade: 20
-    }
-    ];
+    private jogos: Jogo[] = [];
 
-    public editar_jogo(jogo: IJogo) {
-        const jogoExiste = this.jogos.find(j => j.id === jogo.id);
-        if (jogoExiste) {
-            jogoExiste.titulo = jogo.titulo;
-            jogoExiste.desenvolvedora = jogo.desenvolvedora;
-            jogoExiste.plataforma = jogo.plataforma;
-            jogoExiste.data_lancamento = jogo.data_lancamento;
-            jogoExiste.preco = jogo.preco;
-            jogoExiste.descricao = jogo.descricao;
-            jogoExiste.quantidade = jogo.quantidade;
-        }
-    }
-
-    public cadastrar(usuario: IJogo) {
-        this.jogos.push(usuario);
+    public cadastrar(jogo: Jogo) {
+        this.jogos.push(jogo);
     }
 
     public login() {
@@ -45,15 +34,33 @@ export class JogoModel {
 
 
     public deletar_jogo(id: number) {
-        this.jogos = this.jogos.filter(jogo => jogo.id !== id);
+        const jogoIndex = this.jogos.findIndex(jogo => jogo.id === id);
+
+        if (jogoIndex === -1) {
+            return;
+        }
+
+        this.jogos.splice(jogoIndex, 1);
     }
 
-    public list_jogos(): IJogo[] {
+    public list_jogos(): Jogo[] {
         return this.jogos;
     }
 
-    public list_jogo(id: number): IJogo | undefined {
+    public list_jogo(id: number): Jogo | undefined {
         return this.jogos.find(jogo => jogo.id === id);
     }
 
+    public editar_jogo(jogoAtualizado: Jogo) {
+        const jogoExiste = this.jogos.find(j => j.id === jogoAtualizado.id);
+        if (jogoExiste) {
+            jogoExiste.setTitle(jogoAtualizado.getTitle());
+            jogoExiste.setDesenvolvedora(jogoAtualizado.getDesenvolvedora());
+            jogoExiste.setPlataforma(jogoAtualizado.getPlataforma());
+            jogoExiste.setDataLancamento(jogoAtualizado.getDataLancamento());
+            jogoExiste.setPreco(jogoAtualizado.getPreco());
+            jogoExiste.setDescricao(jogoAtualizado.getDescricao());
+            jogoExiste.setQuantidade(jogoAtualizado.getQuantidade());
+        }
+    }
 }

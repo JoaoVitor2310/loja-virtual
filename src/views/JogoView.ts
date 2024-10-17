@@ -1,35 +1,28 @@
-import { IJogo } from "../interfaces/Jogo";
+import { Jogo } from "../models/Jogo";
 
 export class JogoView {
-    public mostrar_jogo_criado(jogo: IJogo) {
-        console.log(`Titulo: ${jogo.titulo}`);
-        console.log(`Desenvolvedora: ${jogo.desenvolvedora}`);
-        console.log(`Plataforma: ${jogo.plataforma}`);
-        console.log(`Data de lancamento: ${jogo.data_lancamento}`);
-        console.log(`Preço: ${jogo.preco}`);
-        console.log(`Descrição: ${jogo.descricao}`);
-        console.log(`Quantidade: ${jogo.quantidade}`);
-        console.log(`Jogo criado com sucesso!`);
+    public mostrar_jogo_criado(jogo: Jogo) {
+        console.log(`Jogo ${jogo.getTitle()} criado com sucesso!`);
     }
 
-    public list_jogos(jogos: IJogo[]) {
+    public list_jogos(jogos: Jogo[]) {
         console.log(jogos);
     }
 
-    public list_jogo(jogo: IJogo) {
+    public list_jogo(jogo: Jogo) {
         console.log(jogo);
     }
     
     public jogo_nao_encontrado(id: number): void {
-        console.log(`Jogo de id: ${id} não encontrado!`);
+        console.log(`Jogo de id ${id} não encontrado. Tente novamente!`);
     }
     
     public jogo_deletado(id: number): void {
-        console.log(`Jogo de id: ${id} deletado com sucesso!`);
+        console.log(`Jogo de id ${id} deletado com sucesso!`);
     }
     
     public jogo_editado(id: number): void {
-        console.log(`Jogo de id: ${id} editado com sucesso!`);
+        console.log(`Jogo de id ${id} editado com sucesso!`);
     }
 
 }
