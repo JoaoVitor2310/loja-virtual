@@ -30,6 +30,26 @@ export class JogoController {
 
         this.view.list_jogo(jogo);
     }
+    
+    public deletar_jogo(id: number): void {
+        const jogo = this.model.list_jogo(id)
+        if (!jogo) {
+            this.view.jogo_nao_encontrado(id);
+            return;
+        }
+        this.model.deletar_jogo(id)
+        this.view.jogo_deletado(id);
+    }
+    
+    public editar_jogo(jogo: IJogo): void {
+        const jogoExiste = this.model.list_jogo(jogo.id)
+        if (!jogoExiste) {
+            this.view.jogo_nao_encontrado(jogo.id);
+            return;
+        }
+        this.model.editar_jogo(jogo)
+        this.view.jogo_editado(jogo.id);
+    }
 
     public iniciar(): void {
         let opcao: string;
@@ -39,7 +59,7 @@ export class JogoController {
             console.log("2 - Selecionar jogo");
             console.log("3 - Cadastrar jogo (ADMIN)");
             console.log("4 - Editar jogo (ADMIN)");
-            console.log("5 - Remover jogo (ADMIN)");
+            console.log("5 - Deletar jogo (ADMIN)");
             console.log("10 - Sair");
 
             opcao = readlineSync.question("Escolha uma opcao: ");
@@ -64,6 +84,24 @@ export class JogoController {
                     const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
                     const jogo = { id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade };
                     this.cadastrar_jogo(jogo);
+                    break;
+                }
+                case '4': {
+                    const id = Number(readlineSync.question("Qual eh o id do jogo? "));
+                    const titulo = readlineSync.question("Qual eh o titulo do jogo? ");
+                    const desenvolvedora = readlineSync.question("Qual eh a desenvolvedora do jogo? ");
+                    const plataforma = readlineSync.question("Qual eh a plataforma do jogo? ");
+                    const data_lancamento = readlineSync.question("Qual eh data_lancamento do jogo? ");
+                    const preco = Number(readlineSync.question("Qual eh o preco do jogo? "));
+                    const descricao = readlineSync.question("Qual eh o descricao do jogo? ");
+                    const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
+                    const jogo = { id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade };
+                    this.editar_jogo(jogo);
+                    break;
+                }
+                case '5': {
+                    const id = Number(readlineSync.question("Qual eh o id do jogo que deseja deletar? "));
+                    this.deletar_jogo(id);
                     break;
                 }
                 case '10':

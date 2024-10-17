@@ -23,5 +23,13 @@ export class JogoView {
     public jogo_nao_encontrado(id: number): void {
         console.log(`Jogo de id: ${id} não encontrado!`);
     }
+    
+    public jogo_deletado(id: number): void {
+        console.log(`Jogo de id: ${id} deletado com sucesso!`);
+    }
+    
+    public jogo_editado(id: number): void {
+        console.log(`Jogo de id: ${id} editado com sucesso!`);
+    }
 
 }

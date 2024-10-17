@@ -23,6 +23,19 @@ export class JogoModel {
     }
     ];
 
+    public editar_jogo(jogo: IJogo) {
+        const jogoExiste = this.jogos.find(j => j.id === jogo.id);
+        if (jogoExiste) {
+            jogoExiste.titulo = jogo.titulo;
+            jogoExiste.desenvolvedora = jogo.desenvolvedora;
+            jogoExiste.plataforma = jogo.plataforma;
+            jogoExiste.data_lancamento = jogo.data_lancamento;
+            jogoExiste.preco = jogo.preco;
+            jogoExiste.descricao = jogo.descricao;
+            jogoExiste.quantidade = jogo.quantidade;
+        }
+    }
+
     public cadastrar(usuario: IJogo) {
         this.jogos.push(usuario);
     }
@@ -30,16 +43,15 @@ export class JogoModel {
     public login() {
     }
 
-    public editar() {
-    }
 
-    public remover() {
+    public deletar_jogo(id: number) {
+        this.jogos = this.jogos.filter(jogo => jogo.id !== id);
     }
 
     public list_jogos(): IJogo[] {
         return this.jogos;
     }
-    
+
     public list_jogo(id: number): IJogo | undefined {
         return this.jogos.find(jogo => jogo.id === id);
     }
