@@ -5,6 +5,9 @@ import { ClienteView } from './views/ClienteView';
 import { AdminView } from './views/AdminView';
 import { AdminModel } from './models/AdminModel';
 import { AdminController } from './controller/AdminController';
+import { JogoModel } from './models/JogoModel';
+import { JogoView } from './views/JogoView';
+import { JogoController } from './controller/JogoController';
 
 export class Main {
     public iniciar_sistema(): void {
@@ -36,6 +39,14 @@ export class Main {
                     const adminController = new AdminController(adminModel, adminView);
                     console.log('Admin.');
                     adminController.iniciar();
+                    break;
+                case '3':
+                    // Instancia Jogo
+                    const jogoModel = new JogoModel();
+                    const jogoView = new JogoView();
+                    const jogoController = new JogoController(jogoModel, jogoView);
+                    console.log('Jogo.');
+                    jogoController.iniciar();
                     break;
                 case '10':
                     console.log("Saindo...");

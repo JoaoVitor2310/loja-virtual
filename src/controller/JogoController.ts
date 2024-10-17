@@ -17,27 +17,55 @@ export class JogoController {
         this.view.mostrar_jogo_criado(jogo);
     }
 
+    public list_jogos(): void {
+        this.view.list_jogos(this.model.list_jogos());
+    }
+
+    public list_jogo(id: number): void {
+        const jogo = this.model.list_jogo(id)
+        if (!jogo) {
+            this.view.jogo_nao_encontrado(id);
+            return;
+        }
+
+        this.view.list_jogo(jogo);
+    }
+
     public iniciar(): void {
         let opcao: string;
         do {
             console.log("\n==== Loja de Jogos ====");
             console.log("1 - Jogos disponíveis");
-            console.log("2 - Jogos disponíveis por categoria");
-            console.log("3 - Selecionar jogo");
-            console.log("4 - Cadastrar jogo (ADMIN)");
-            console.log("5 - Editar jogo (ADMIN)");
-            console.log("6 - Remover jogo (ADMIN)");
+            console.log("2 - Selecionar jogo");
+            console.log("3 - Cadastrar jogo (ADMIN)");
+            console.log("4 - Editar jogo (ADMIN)");
+            console.log("5 - Remover jogo (ADMIN)");
             console.log("10 - Sair");
 
             opcao = readlineSync.question("Escolha uma opcao: ");
 
             switch (opcao) {
                 case '1':
-                    console.log("1");
+                    this.list_jogos();
                     break;
-                case '2':
-                    console.log("1");
+                case '2': {
+                    const id = Number(readlineSync.question("Qual eh o id do jogo que deseja ver? "));
+                    this.list_jogo(id);
                     break;
+                }
+                case '3': {
+                    const id = Number(readlineSync.question("Qual eh o id do jogo? "));
+                    const titulo = readlineSync.question("Qual eh o titulo do jogo? ");
+                    const desenvolvedora = readlineSync.question("Qual eh a desenvolvedora do jogo? ");
+                    const plataforma = readlineSync.question("Qual eh a plataforma do jogo? ");
+                    const data_lancamento = readlineSync.question("Qual eh data_lancamento do jogo? ");
+                    const preco = Number(readlineSync.question("Qual eh o preco do jogo? "));
+                    const descricao = readlineSync.question("Qual eh o descricao do jogo? ");
+                    const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
+                    const jogo = { id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade };
+                    this.cadastrar_jogo(jogo);
+                    break;
+                }
                 case '10':
                     console.log("Saindo...");
                     break;

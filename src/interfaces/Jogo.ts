@@ -1,9 +1,10 @@
 export interface IJogo {
+    id: number,
     titulo: string;
     desenvolvedora: string;
     plataforma: string;
     data_lancamento: string;
-    preco: Number;
+    preco: number;
     descricao: string;
-    quantidade: Number;
+    quantidade: number;
 }

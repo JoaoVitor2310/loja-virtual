@@ -11,12 +11,17 @@ export class JogoView {
         console.log(`Quantidade: ${jogo.quantidade}`);
         console.log(`Jogo criado com sucesso!`);
     }
-    
-    public mostrar_jogos(jogos: IJogo[]) {
+
+    public list_jogos(jogos: IJogo[]) {
         console.log(jogos);
     }
-    
-    public email_repetido() {
-        console.log('Email ja cadastrado! Tente novamente.');
+
+    public list_jogo(jogo: IJogo) {
+        console.log(jogo);
     }
+    
+    public jogo_nao_encontrado(id: number): void {
+        console.log(`Jogo de id: ${id} não encontrado!`);
+    }
+
 }
