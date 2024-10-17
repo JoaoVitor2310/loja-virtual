@@ -24,4 +24,15 @@ export class UsuarioView {
     public login_completo(usuario: Partial<IUsuario>) {
         console.log(`Usuário ${usuario.email} logado com sucesso!`);
     }
+    public usuario_inexistente() {
+        console.log('Usuario não encontrado! Tente novamente.');
+    }
+    
+    public usuario_editado() {
+        console.log('Usuario editado com sucesso!');
+    }
+    
+    public usuario_deletado() {
+        console.log('Usuario deletado com sucesso!');
+    }
 }
