@@ -24,5 +24,9 @@ export class JogoView {
     public jogo_editado(id: number): void {
         console.log(`Jogo de id ${id} editado com sucesso!`);
     }
+    
+    public acesso_negado(): void {
+        console.log(`Você não tem acesso para manter jogo.`);
+    }
 
 }

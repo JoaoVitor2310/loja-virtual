@@ -42,7 +42,8 @@ export class Main {
                 case '3': {
                     const jogoModel = new JogoModel();
                     const jogoView = new JogoView();
-                    const jogoController = new JogoController(jogoModel, jogoView);
+                    const adminModel = new AdminModel();
+                    const jogoController = new JogoController(jogoModel, jogoView, adminModel);
                     jogoController.iniciar();
                     break;
                 }

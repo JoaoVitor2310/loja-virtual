@@ -17,15 +17,19 @@ export class AdminView {
         console.log('Login incorreto! Tente novamente.');
     }
     
-    public login_completo(email: string): void {
-        console.log(`Usuário ${email} logado com sucesso!`);
+    public login_completo(token: string): void {
+        console.log(`Usuário logado com sucesso! Token: ${token}`);
+    }
+   
+    public token_invalido(token: string): void {
+        console.log(`Token inválido. Tente novamente.`);
     }
     public admin_inexistente(id: number): void {
         console.log(`Admin de id ${id} não encontrado! Tente novamente.`);
     }
     
     public admin_editado(id: number): void {
-        console.log(`Admin ${id}editado com sucesso!`);
+        console.log(`Admin ${id} editado com sucesso!`);
     }
     
     public admin_deletado(id: number): void {

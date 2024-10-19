@@ -15,7 +15,7 @@ export class AdminController {
     public cadastrar(id: number, nome: string, email: string, senha: string, telefone: string): void {
         const admin = new Admin(id, nome, email, senha, telefone);
 
-        if (!this.model.verificar_cadastro(admin.getEmail())) { // Se falhar, não continua com o cadastro 
+        if (!this.model.verificar_cadastro(admin.getEmail())) { // Se o email já foi utilizado, não continua com o cadastro 
             this.view.email_repetido();
             return;
         }
@@ -23,39 +23,46 @@ export class AdminController {
         this.model.cadastrar(admin);
         this.view.mostrar_admin_criado(admin);
     }
-    
+
     public login(email: string, senha: string): void {
-        this.model.login(email, senha)
-        this.view.login_completo(email);
-        
-        // if (!this.model.login(email, senha)) {
-        //     this.view.login_incorreto();
-        //     return;
-        // }
-        // this.model.(admin);
-        
+        const admin = this.model.login(email, senha);
+        if (!admin) {
+            this.view.login_incorreto();
+            return;
+        }
+
+        this.view.login_completo((admin as Admin).getToken());
     }
 
-    public editar(id: number, nome: string, email: string, senha: string, telefone: string): void {
-        const adminExiste = this.model.verificar_cadastro(email);
-        if (!adminExiste) {
+    public editar(token: string, id: number, nome: string, email: string, senha: string, telefone: string): void {
+        if (!this.model.verificar_token(token)) {
+            this.view.token_invalido(token);
+            return;
+        }
+        if (!this.model.verificar_cadastro(email)) {
             this.view.admin_inexistente(id);
             return;
         }
+        
         const adminEditado = new Admin(id, nome, email, senha, telefone);
         this.model.editar_admin(adminEditado);
         this.view.admin_editado(id);
     }
 
-    public deletar(id: number): void {
-        this.model.deletar_admin(id)
+    public deletar(token: string, id: number): void {
+        if (!this.model.verificar_token(token)) {
+            this.view.token_invalido(token);
+            return;
+        }
+        
+        const admin = this.model.list_admin(id)
+        if (!admin) {
+            this.view.admin_inexistente(id);
+            return;
+        }
+        this.model.deletar_admin(id);
         this.view.admin_deletado(id);
 
-        // const admin = this.model.list_admin(id)
-        // if (!admin) {
-        //     this.view.admin_inexistente();
-        //     return;
-        // }
     }
 
     public iniciar(): void {
@@ -93,19 +100,20 @@ export class AdminController {
                     break;
                 }
                 case '3': {
+                    const token = readlineSync.question("Digite o seu token de acesso: ");
                     const id = Number(readlineSync.question("Digite o id: "));
                     const nome = readlineSync.question("Digite o seu nome: ");
                     const email = readlineSync.question("Digite o seu email: ");
                     const senha = readlineSync.question("Digite o seu senha: ");
                     const telefone = readlineSync.question("Digite o seu telefone: ");
-
-                    // const admin = { id, nome, email, senha, telefone, tipo: this.tipo };
-                    this.editar(id, nome, email, senha, telefone);
+                    
+                    this.editar(token, id, nome, email, senha, telefone);
                     break;
                 }
                 case '4': {
+                    const token = readlineSync.question("Digite o seu token de acesso: ");
                     const id = Number(readlineSync.question("Qual eh o id do admin que deseja deletar? "));
-                    this.deletar(id);
+                    this.deletar(token, id);
                     break;
                 }
                 case '5':

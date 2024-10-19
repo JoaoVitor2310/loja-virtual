@@ -1,25 +1,9 @@
-// {
-//     id: 1,
-//     nome: 'Lucas Marvilla',
-//     email: 'marvilla@gmail.com',
-//     senha: '1234',
-//     telefone: '(11) 99999-9999',
-//     tipo: '2',
-// },
-// {
-//     id: 2,
-//     nome: 'João Vitor Gouveia',
-//     email: 'jv@gmail.com',
-//     senha: '1234',
-//     telefone: '(11) 98888-8888',
-//     tipo: '1',
-// }
-
-import * as readlineSync from 'readline-sync';
 import { Admin } from '../models/Admin';
 
 export class AdminModel {
-    private admins: Admin[] = [];
+    private admins: Admin[] = [
+        new Admin(1, 'Lucas Marvilla', 'lucas@gmail.com', 'lucas', '2299999999'),
+    ];
 
     public verificar_cadastro(email: string) {
         const emailCadastrado = this.admins.find(a => a.getEmail() === email);
@@ -31,11 +15,11 @@ export class AdminModel {
         this.admins.push(admin);
     }
 
-    public login(email: string, senha: string): boolean { // Separar em dois? Um pra buscar e outro pra setar como logado?
+    public login(email: string, senha: string): boolean | Admin { // Separar em dois? Um pra buscar e outro pra setar como logado?
         const admin = this.admins.find(a => a.getEmail() === email && a.getSenha() === senha);
         if (!admin) return false;
         admin.setLogado(true);
-        return true;
+        return admin;
     }
 
     public editar_admin(adminAtualizado: Admin) {
@@ -67,6 +51,10 @@ export class AdminModel {
         }
 
         this.admins.splice(adminIndex, 1);
+    }
+
+    public verificar_token(token: string): boolean { // MOCK DE LOGIN
+        return token === 'jwt_admin';
     }
 
 }
