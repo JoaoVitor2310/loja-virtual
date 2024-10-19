@@ -2,10 +2,20 @@ import * as readlineSync from 'readline-sync';
 import { Jogo } from './Jogo';
 
 export class JogoModel {
+    private static instance: JogoModel;
     private jogos: Jogo[] = [
-        new Jogo(1, "The Legend of Zelda: Breath of the Wild", "Nintendo", "Nintendo Switch", "2017-03-03", 300, "Um jogo de aventura em um mundo aberto.", 10), // MOCK
-        new Jogo(2, "Super Mario Odyssey", "Nintendo", "Nintendo Switch", "2017-10-27", 250, "Um jogo de plataforma em um mundo aberto.", 15) // MOCK
+        new Jogo(1, "The Legend of Zelda: Breath of the Wild", "Nintendo", "Nintendo Switch", "2017-03-03", 300, "Um jogo de aventura em um mundo aberto.", 10),
+        new Jogo(2, "Super Mario Odyssey", "Nintendo", "Nintendo Switch", "2017-10-27", 250, "Um jogo de plataforma em um mundo aberto.", 15)
     ];
+
+    private constructor() {}
+
+    public static getInstance(): JogoModel { // DP: SINGLETON
+        if (!JogoModel.instance) {
+            JogoModel.instance = new JogoModel();
+        }
+        return JogoModel.instance;
+    }
 
 
     public cadastrar(jogo: Jogo) {

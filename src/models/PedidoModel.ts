@@ -2,7 +2,17 @@ import { JogoPedido } from './JogoPedido';
 import { Pedido } from './Pedido';
 
 export class PedidoModel {
+    private static instance: PedidoModel;
     private pedidos: Pedido[] = [];
+
+    private constructor() {}
+
+    public static getInstance(): PedidoModel { // DP: SINGLETON
+        if (!PedidoModel.instance) {
+            PedidoModel.instance = new PedidoModel();
+        }
+        return PedidoModel.instance;
+    }
 
     public cadastrar(pedido: Pedido) {
         this.pedidos.push(pedido);

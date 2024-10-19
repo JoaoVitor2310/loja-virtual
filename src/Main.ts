@@ -11,9 +11,11 @@ import { JogoController } from './controller/JogoController';
 import { PedidoController } from './controller/PedidoController';
 import { PedidoView } from './views/PedidoView';
 import { PedidoModel } from './models/PedidoModel';
+import { SistemaMediator } from './Mediator';
 
 export class Main {
     public iniciar_sistema(): void {
+        const mediator = new SistemaMediator();
         let opcao: string;
         do {
             console.log("\n==== Loja de Jogos ====");
@@ -25,42 +27,7 @@ export class Main {
             console.log("10 - Sair");
 
             opcao = readlineSync.question("Escolha uma opcao: ");
-
-            switch (opcao) {
-                case '1':
-                    const clienteModel = new ClienteModel();
-                    const clienteView = new ClienteView();
-                    const clienteController = new ClienteController(clienteModel, clienteView);
-                    clienteController.iniciar();
-                    break;
-                case '2':
-                    const adminModel = new AdminModel();
-                    const adminView = new AdminView();
-                    const adminController = new AdminController(adminModel, adminView);
-                    adminController.iniciar();
-                    break;
-                case '3': {
-                    const jogoModel = new JogoModel();
-                    const jogoView = new JogoView();
-                    const adminModel = new AdminModel();
-                    const jogoController = new JogoController(jogoModel, jogoView, adminModel);
-                    jogoController.iniciar();
-                    break;
-                }
-                case '4': {
-                    const pedidoModel = new PedidoModel();
-                    const pedidoView = new PedidoView();
-                    const jogoModel = new JogoModel();
-                    const pedidoController = new PedidoController(pedidoModel, pedidoView, jogoModel);
-                    pedidoController.iniciar();
-                    break;
-                }
-                case '10':
-                    console.log("Saindo...");
-                    break;
-                default:
-                    console.log("Opção inválida. Tente novamente.");
-            }
+            mediator.executarComando(opcao);
         }
         while (opcao !== '10');
     }
