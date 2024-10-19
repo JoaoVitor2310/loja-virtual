@@ -1,38 +1,38 @@
-import { IUsuario } from "../interfaces/Usuario";
+import { Usuario } from "../models/Usuario";
 
-export class UsuarioView {
-    public mostrar_usuario_criado(usuario: IUsuario) {
-        console.log(`Nome: ${usuario.nome}`);
-        console.log(`Email: ${usuario.email}`);
-        console.log(`Telefone: ${usuario.telefone}`);
-        console.log(`Tipo: ${usuario.tipo === "1" ? "CLIENTE" : "ADMIN"}`);
-        console.log(`Usuário criado com sucesso!`);
+export abstract class UsuarioView {
+    public mostrar_usuario_criado(usuario: Usuario): void {
+        console.log(`Usuario criado com sucesso!`);
     }
     
-    public mostrar_usuarios(usuarios: IUsuario[]) {
+    public mostrar_usuarios(usuarios: Usuario[]): void {
         console.log(usuarios);
     }
     
-    public email_repetido() {
+    public email_repetido(): void {
         console.log('Email ja cadastrado! Tente novamente.');
     }
     
-    public login_incorreto() {
+    public login_incorreto(): void {
         console.log('Login incorreto! Tente novamente.');
     }
     
-    public login_completo(usuario: Partial<IUsuario>) {
-        console.log(`Usuário ${usuario.email} logado com sucesso!`);
+    public login_completo(token: string): void {
+        console.log(`Usuário logado com sucesso! Token: ${token}`);
     }
-    public usuario_inexistente() {
-        console.log('Usuario não encontrado! Tente novamente.');
+   
+    public token_invalido(token: string): void {
+        console.log(`Token inválido. Tente novamente.`);
+    }
+    public usuario_inexistente(id: number): void {
+        console.log(`Usuario de id ${id} não encontrado! Tente novamente.`);
     }
     
-    public usuario_editado() {
-        console.log('Usuario editado com sucesso!');
+    public usuario_editado(id: number): void {
+        console.log(`Usuario ${id} editado com sucesso!`);
     }
     
-    public usuario_deletado() {
-        console.log('Usuario deletado com sucesso!');
+    public usuario_deletado(id: number): void {
+        console.log(`Usuario ${id} deletado com sucesso!`);
     }
 }

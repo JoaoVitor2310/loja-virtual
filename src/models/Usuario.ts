@@ -5,6 +5,8 @@ export abstract class Usuario {
     private senha: string;
     private telefone: string;
     private logado: boolean = false;
+    protected tipo: string;
+    protected token: string;
 
     public constructor(id: number, nome: string, email: string, senha: string, telefone: string) {
         this.id = id;
@@ -12,6 +14,8 @@ export abstract class Usuario {
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
+        this.tipo = ''; // Inicializa como vazio, ou um valor padrão genérico
+        this.token = '';
     }
 
     // Getters
@@ -33,6 +37,10 @@ export abstract class Usuario {
     
     public getLogado(): boolean {
         return this.logado;
+    }
+
+    public getToken(): string {
+        return this.token;
     }
 
 
@@ -57,4 +65,7 @@ export abstract class Usuario {
         this.logado = status;
     }
 
+    public setToken(token: string): void {
+        this.token = token;
+    }
 }

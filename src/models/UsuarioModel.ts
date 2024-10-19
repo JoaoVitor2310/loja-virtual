@@ -1,101 +1,61 @@
-import * as readlineSync from 'readline-sync';
-import { IUsuario } from '../interfaces/Usuario';
+// new Usuario(1, 'Lucas Marvilla', 'lucas@gmail.com', 'lucas', '2299999999'),
+import { Usuario } from '../models/Usuario';
 
-export class UsuarioModel {
-    private usuarios: IUsuario[] = [{
-        id: 1,
-        nome: 'Lucas Marvilla',
-        email: 'marvilla@gmail.com',
-        senha: '1234',
-        telefone: '(11) 99999-9999',
-        tipo: '2',
-    },
-    {
-        id: 2,
-        nome: 'João Vitor Gouveia',
-        email: 'jv@gmail.com',
-        senha: '1234',
-        telefone: '(11) 98888-8888',
-        tipo: '1',
-    }];
+export abstract class UsuarioModel {
+    protected usuarios: Usuario[] = [];
 
-    public verificar_cadastro(usuario: IUsuario) {
-        const emailCadastrado = this.usuarios.find(u => u.email === usuario.email);
-
-        if (emailCadastrado) {
-
-            return false; // Cadastro falhou
-        }
-
-        return true; // Email disponível
-
+    constructor(usuarios: Usuario[]) { 
+        this.usuarios = usuarios;
     }
 
-    public cadastrar(usuario: IUsuario) {
+    public verificar_cadastro(email: string) {
+        const emailCadastrado = this.usuarios.find(a => a.getEmail() === email);
+        if (emailCadastrado) return false; // Email indisponível
+        return true; // Email disponível
+    }
+
+    public cadastrar(usuario: Usuario) {
         this.usuarios.push(usuario);
     }
 
-    public login(usuario: Partial<IUsuario>) {
-        const login = this.usuarios.find(u => u.email === usuario.email && u.senha === usuario.senha);
-        if (!login) return false;
-        return true;
+    public login(email: string, senha: string): boolean | Usuario { // Separar em dois? Um pra buscar e outro pra setar como logado?
+        const usuario = this.usuarios.find(a => a.getEmail() === email && a.getSenha() === senha);
+        if (!usuario) return false;
+        usuario.setLogado(true);
+        return usuario;
     }
 
-    public editar(usuario: IUsuario) {
-        const usuarioExiste = this.usuarios.find(u => u.id === usuario.id);
+    public editar_usuario(usuarioAtualizado: Usuario) {
+        const usuarioExiste = this.usuarios.find(j => j.id === usuarioAtualizado.id);
         if (usuarioExiste) {
-            usuarioExiste.nome = usuario.nome;
-            usuarioExiste.email = usuario.email;
-            usuarioExiste.senha = usuario.senha;
-            usuarioExiste.telefone = usuario.telefone;
-            usuarioExiste.tipo = usuario.tipo;
+            usuarioExiste.setNome(usuarioAtualizado.getNome());
+            usuarioExiste.setEmail(usuarioAtualizado.getEmail());
+            usuarioExiste.setSenha(usuarioAtualizado.getSenha());
+            usuarioExiste.setTelefone(usuarioAtualizado.getTelefone());
         }
     }
 
     public remover() {
     }
 
-    public getUsuarios(): IUsuario[] {
+    public getUsuarios(): Usuario[] {
         return this.usuarios;
     }
 
-    public list_usuario(id: number): IUsuario | undefined {
+    public list_usuario(id: number): Usuario | undefined {
         return this.usuarios.find(usuario => usuario.id === id);
     }
 
-    // public deletar_jogo(id: number) {
-    //     this.jogos = this.jogos.filter(jogo => jogo.id !== id);
-    // }
+    public deletar_usuario(id: number) {
+        const usuarioIndex = this.usuarios.findIndex(usuario => usuario.id === id);
 
+        if (usuarioIndex === -1) { // Não encontrou
+            return;
+        }
 
-    // JogoController
-    public iniciar(): void {
-        let opcao: string;
-        do {
-            console.log("\n==== Loja de Jogos ====");
-            console.log("1 - Jogos disponíveis");
-            console.log("2 - Jogos disponíveis por categoria");
-            console.log("3 - Selecionar jogo");
-            console.log("4 - Cadastrar jogo (ADMIN)");
-            console.log("5 - Editar jogo (ADMIN)");
-            console.log("6 - Remover jogo (ADMIN)");
-            console.log("10 - Sair");
-
-            opcao = readlineSync.question("Escolha uma opcao: ");
-
-            switch (opcao) {
-                case '1':
-                    console.log("1");
-                    break;
-                case '2':
-                    console.log("1");
-                    break;
-                case '10':
-                    console.log("Saindo...");
-                    break;
-                default:
-                    console.log("Opção inválida. Tente novamente.");
-            }
-        } while (opcao !== '10');
+        this.usuarios.splice(usuarioIndex, 1);
     }
+
+    public abstract verificar_token(token: string): boolean; // DP: TEMPLATE METHOD
+
 }
