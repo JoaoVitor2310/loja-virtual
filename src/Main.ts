@@ -8,6 +8,9 @@ import { AdminController } from './controller/AdminController';
 import { JogoModel } from './models/JogoModel';
 import { JogoView } from './views/JogoView';
 import { JogoController } from './controller/JogoController';
+import { PedidoController } from './controller/PedidoController';
+import { PedidoView } from './views/PedidoView';
+import { PedidoModel } from './models/PedidoModel';
 
 export class Main {
     public iniciar_sistema(): void {
@@ -25,29 +28,32 @@ export class Main {
 
             switch (opcao) {
                 case '1':
-                    // Instancia Cliente
                     const clienteModel = new ClienteModel();
                     const clienteView = new ClienteView();
                     const clienteController = new ClienteController(clienteModel, clienteView);
-                    console.log('Cliente.');
                     clienteController.iniciar();
                     break;
                 case '2':
-                    // Instancia Admin
                     const adminModel = new AdminModel();
                     const adminView = new AdminView();
                     const adminController = new AdminController(adminModel, adminView);
-                    console.log('Admin.');
                     adminController.iniciar();
                     break;
-                case '3':
-                    // Instancia Jogo
+                case '3': {
                     const jogoModel = new JogoModel();
                     const jogoView = new JogoView();
                     const jogoController = new JogoController(jogoModel, jogoView);
-                    console.log('Jogo.');
                     jogoController.iniciar();
                     break;
+                }
+                case '4': {
+                    const pedidoModel = new PedidoModel();
+                    const pedidoView = new PedidoView();
+                    const jogoModel = new JogoModel();
+                    const pedidoController = new PedidoController(pedidoModel, pedidoView, jogoModel);
+                    pedidoController.iniciar();
+                    break;
+                }
                 case '10':
                     console.log("Saindo...");
                     break;

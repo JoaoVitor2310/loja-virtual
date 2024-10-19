@@ -62,7 +62,7 @@ export class AdminController {
         let opcao: string;
         let continuarMenu = true;
         do {
-            console.log("\n==== Menu de admin ====");
+            console.log("\n==== Admin ====");
             console.log("1 - Cadastrar");
             console.log("2 - Login");
             console.log("3 - Editar");

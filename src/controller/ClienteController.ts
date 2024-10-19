@@ -6,7 +6,6 @@ import { ClienteView } from '../views/ClienteView';
 export class ClienteController extends UsuarioController {
     constructor(model: ClienteModel, view: ClienteView) {
         super(model, view);
-        this.tipo = '1';
     }
 
     
