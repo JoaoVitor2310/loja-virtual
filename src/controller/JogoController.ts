@@ -3,126 +3,122 @@ import { JogoModel } from '../models/JogoModel';
 import { JogoView } from '../views/JogoView';
 import { Jogo } from '../models/Jogo';
 import { AdminModel } from '../models/AdminModel';
+import { AutenticacaoServiceInterface } from '../interfaces/AutenticacaoServiceInterface';
+import { JogoViewInterface } from '../interfaces/JovoViewInterface';
+import { JogoService } from '../services/JogoService';
 
 export class JogoController {
-    private model: JogoModel;
-    private view: JogoView;
-    private adminModel: AdminModel;
+    private jogoService: JogoService;
+    private jogoView: JogoViewInterface;
 
-
-    public constructor(model: JogoModel, view: JogoView, adminModel: AdminModel) {
-        this.model = model;
-        this.view = view;
-        this.adminModel = adminModel;
-    }
-    public cadastrar_jogo(token: string, id: number, titulo: string, desenvolvedora: string, plataforma: string, data_lancamento: string, preco: number, descricao: string, quantidade: number): void {
-        if (!this.adminModel.verificar_token(token)) {
-            this.view.acesso_negado();
-            return;
-        }
-        const jogo = new Jogo(id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
-        this.model.cadastrar(jogo);
-        this.view.mostrar_jogo_criado(jogo);
+    constructor(jogoService: JogoService, jogoView: JogoViewInterface) {
+        this.jogoService = jogoService;
+        this.jogoView = jogoView;
     }
 
-    public list_jogos(): void {
-        this.view.list_jogos(this.model.list_jogos());
+    public cadastrarNovoJogo(id: number, titulo: string, desenvolvedora: string, plataforma: string, dataLancamento: string, preco: number, descricao: string, quantidade: number, categoria: string): void {
+        try {
+            const novoJogo = new Jogo(id, titulo, desenvolvedora, plataforma, dataLancamento, preco, descricao, quantidade, categoria);
+            this.jogoService.cadastrarJogo(novoJogo);
+            this.jogoView.mostrarJogoCriado(novoJogo);
+        } catch (error: any) {
+            this.jogoView.mostrarErro(error.message);
+        }
     }
 
-    public list_jogo(id: number): void {
-        const jogo = this.model.list_jogo(id);
-        if (!jogo) {
-            this.view.jogo_nao_encontrado(id);
-            return;
+    public editarJogo(id: number, titulo: string, desenvolvedora: string, plataforma: string, dataLancamento: string, preco: number, descricao: string, quantidade: number, categoria: string): void {
+        try {
+            const jogoAtualizado = new Jogo(id, titulo, desenvolvedora, plataforma, dataLancamento, preco, descricao, quantidade, categoria);
+            this.jogoService.editarJogo(jogoAtualizado);
+        } catch (error: any) {
+            this.jogoView.mostrarErro(error.message);
         }
-        this.view.list_jogo(jogo);
     }
 
-    public deletar_jogo(token: string, id: number): void {
-        if (!this.adminModel.verificar_token(token)) {
-            this.view.acesso_negado();
-            return;
+    public deletarJogo(id: number): void {
+        try {
+            this.jogoService.deletarJogo(id);
+            this.jogoView.mostrarJogoDeletado(id);
+        } catch (error: any) {
+            this.jogoView.mostrarErro(error.message);
         }
-        this.model.deletar_jogo(id);
-        this.view.jogo_deletado(id);
     }
 
-    public editar_jogo(token: string, id: number, titulo: string, desenvolvedora: string, plataforma: string, data_lancamento: string, preco: number, descricao: string, quantidade: number): void {
-        if (!this.adminModel.verificar_token(token)) {
-            this.view.acesso_negado();
-            return;
+    public listarJogos(): void {
+        const jogos = this.jogoService.listarJogos();
+        this.jogoView.mostrarJogos(jogos);
+    }
+
+    public buscarJogo(id: number): void {
+        const jogo = this.jogoService.buscarJogo(id);
+        if (jogo) {
+            this.jogoView.mostrarJogo(jogo);
+        } else {
+            this.jogoView.mostrarErro("Jogo não encontrado");
         }
-        
-        const jogoExiste = this.model.list_jogo(id);
-        if (!jogoExiste) {
-            this.view.jogo_nao_encontrado(id);
-            return;
-        }
-        const jogoEditado = new Jogo(id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
-        this.model.editar_jogo(jogoEditado);
-        this.view.jogo_editado(id);
     }
 
     public iniciar(): void {
         let opcao: string;
+
         do {
-            console.log("\n==== Jogos ====");
-            console.log("1 - Jogos disponíveis");
-            console.log("2 - Selecionar jogo");
-            console.log("3 - Cadastrar jogo (ADMIN)");
-            console.log("4 - Editar jogo (ADMIN)");
-            console.log("5 - Deletar jogo (ADMIN)");
-            console.log("10 - Sair");
+            console.log("\n==== Menu de Jogos ====");
+            console.log("1 - Listar Jogos");
+            console.log("2 - Buscar Jogo por ID");
+            console.log("3 - Cadastrar Jogo");
+            console.log("4 - Editar Jogo");
+            console.log("5 - Deletar Jogo");
+            console.log("0 - Sair");
 
             opcao = readlineSync.question("Escolha uma opcao: ");
 
             switch (opcao) {
                 case '1':
-                    this.list_jogos();
+                    this.listarJogos();
                     break;
                 case '2': {
-                    const id = Number(readlineSync.question("Qual eh o id do jogo que deseja ver? "));
-                    this.list_jogo(id);
+                    const id = Number(readlineSync.question("Digite o ID do jogo: "));
+                    this.buscarJogo(id);
                     break;
                 }
                 case '3': {
-                    const token = readlineSync.question("Digite o seu token de acesso: ");
-                    const id = Number(readlineSync.question("Qual eh o id do jogo? "));
-                    const titulo = readlineSync.question("Qual eh o titulo do jogo? ");
-                    const desenvolvedora = readlineSync.question("Qual eh a desenvolvedora do jogo? ");
-                    const plataforma = readlineSync.question("Qual eh a plataforma do jogo? ");
-                    const data_lancamento = readlineSync.question("Qual eh data_lancamento do jogo? ");
-                    const preco = Number(readlineSync.question("Qual eh o preco do jogo? "));
-                    const descricao = readlineSync.question("Qual eh o descricao do jogo? ");
-                    const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
-                    this.cadastrar_jogo(token, id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
+                    const id = Number(readlineSync.question("Digite o ID do jogo: "));
+                    const titulo = readlineSync.question("Digite o título do jogo: ");
+                    const desenvolvedora = readlineSync.question("Digite a desenvolvedora: ");
+                    const plataforma = readlineSync.question("Digite a plataforma: ");
+                    const dataLancamento = readlineSync.question("Digite a data de lançamento (yyyy-mm-dd): ");
+                    const preco = Number(readlineSync.question("Digite o preço: "));
+                    const descricao = readlineSync.question("Digite a descrição do jogo: ");
+                    const quantidade = Number(readlineSync.question("Digite a quantidade em estoque: "));
+                    const categoria = readlineSync.question("Digite a categoria do jogo: ");
+                    this.cadastrarNovoJogo(id, titulo, desenvolvedora, plataforma, dataLancamento, preco, descricao, quantidade, categoria);
                     break;
                 }
                 case '4': {
-                    const token = readlineSync.question("Digite o seu token de acesso: ");
-                    const id = Number(readlineSync.question("Qual eh o id do jogo? "));
-                    const titulo = readlineSync.question("Qual eh o titulo do jogo? ");
-                    const desenvolvedora = readlineSync.question("Qual eh a desenvolvedora do jogo? ");
-                    const plataforma = readlineSync.question("Qual eh a plataforma do jogo? ");
-                    const data_lancamento = readlineSync.question("Qual eh data_lancamento do jogo? ");
-                    const preco = Number(readlineSync.question("Qual eh o preco do jogo? "));
-                    const descricao = readlineSync.question("Qual eh o descricao do jogo? ");
-                    const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
-                    this.editar_jogo(token, id, titulo, desenvolvedora, plataforma, data_lancamento, preco, descricao, quantidade);
+                    const id = Number(readlineSync.question("Digite o ID do jogo: "));
+                    const titulo = readlineSync.question("Digite o novo título do jogo: ");
+                    const desenvolvedora = readlineSync.question("Digite a nova desenvolvedora: ");
+                    const plataforma = readlineSync.question("Digite a nova plataforma: ");
+                    const dataLancamento = readlineSync.question("Digite a nova data de lançamento (yyyy-mm-dd): ");
+                    const preco = Number(readlineSync.question("Digite o novo preço: "));
+                    const descricao = readlineSync.question("Digite a nova descrição do jogo: ");
+                    const quantidade = Number(readlineSync.question("Digite a nova quantidade em estoque: "));
+                    const categoria = readlineSync.question("Digite a categoria do jogo: ");
+                    this.editarJogo(id, titulo, desenvolvedora, plataforma, dataLancamento, preco, descricao, quantidade, categoria);
                     break;
                 }
                 case '5': {
-                    const token = readlineSync.question("Digite o seu token de acesso: ");
-                    const id = Number(readlineSync.question("Qual eh o id do jogo que deseja deletar? "));
-                    this.deletar_jogo(token, id);
+                    const id = Number(readlineSync.question("Digite o ID do jogo que deseja deletar: "));
+                    this.deletarJogo(id);
                     break;
                 }
-                case '10':
-                    console.log("Saindo...");
+                case '0':
+                    console.log("Saindo do sistema...");
                     break;
                 default:
-                    console.log("Opção inválida. Tente novamente.");
+                    console.log("Opção inválida! Tente novamente.");
             }
-        } while (opcao !== '10');
+
+        } while (opcao !== '0');
     }
 }

@@ -7,6 +7,8 @@ import { AdminModel } from "./models/AdminModel";
 import { ClienteModel } from "./models/ClienteModel";
 import { JogoModel } from "./models/JogoModel";
 import { PedidoModel } from "./models/PedidoModel";
+import { JogoRepository } from "./repositories/JogoRepository";
+import { JogoService } from "./services/JogoService";
 import { AdminView } from "./views/AdminView";
 import { ClienteView } from "./views/ClienteView";
 import { JogoView } from "./views/JogoView";
@@ -28,10 +30,10 @@ export class SistemaMediator implements Mediator {
                 adminController.iniciar();
                 break;
             case '3': {
-                const jogoModel = JogoModel.getInstance();
                 const jogoView = new JogoView();
-                const adminModel = AdminModel.getInstance();
-                const jogoController = new JogoController(jogoModel, jogoView, adminModel);
+                const jogoRepository = JogoRepository.getInstance();
+                const jogoService = new JogoService(jogoRepository);
+                const jogoController = new JogoController(jogoService, jogoView);
                 jogoController.iniciar();
                 break;
             }

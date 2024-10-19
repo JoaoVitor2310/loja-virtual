@@ -7,8 +7,9 @@ export class Jogo {
     private preco: number;
     private descricao: string;
     private quantidade: number;
+    private categoria: string;
 
-    public constructor(id: number, titulo: string, desenvolvedora: string, plataforma: string, data_lancamento: string, preco: number, descricao: string, quantidade: number) {
+    public constructor(id: number, titulo: string, desenvolvedora: string, plataforma: string, data_lancamento: string, preco: number, descricao: string, quantidade: number, categoria: string) {
         this.id = id;
         this.titulo = titulo;
         this.desenvolvedora = desenvolvedora;
@@ -17,10 +18,11 @@ export class Jogo {
         this.preco = preco;
         this.descricao = descricao;
         this.quantidade = quantidade;
+        this.categoria = categoria;
     }
 
     // Getters
-    public getTitle(): string {
+    public getTitulo(): string {
         return this.titulo;
     }
 
@@ -48,8 +50,12 @@ export class Jogo {
         return this.quantidade;
     }
 
+    public getCategoria(): string {
+        return this.categoria;
+    }
+
     // Setters
-    public setTitle(titulo: string): void {
+    public setTitulo(titulo: string): void {
         this.titulo = titulo;
     }
 
@@ -75,5 +81,9 @@ export class Jogo {
 
     public setQuantidade(quantidade: number): void {
         this.quantidade = quantidade;
+    }
+
+    public setCategoria(categoria: string): void {
+        this.categoria = categoria;
     }
 }

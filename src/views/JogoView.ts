@@ -1,32 +1,27 @@
+import { JogoViewInterface } from "../interfaces/JovoViewInterface";
 import { Jogo } from "../models/Jogo";
 
-export class JogoView {
-    public mostrar_jogo_criado(jogo: Jogo) {
-        console.log(`Jogo ${jogo.getTitle()} criado com sucesso!`);
+export class JogoView implements JogoViewInterface {
+    mostrarJogoCriado(jogo: Jogo): void {
+        console.log(`Jogo "${jogo.getTitulo()}" criado com sucesso!`);
     }
 
-    public list_jogos(jogos: Jogo[]) {
-        console.log(jogos);
+    mostrarErro(mensagem: string): void {
+        console.error(`Erro: ${mensagem}`);
     }
 
-    public list_jogo(jogo: Jogo) {
-        console.log(jogo);
-    }
-    
-    public jogo_nao_encontrado(id: number): void {
-        console.log(`Jogo de id ${id} não encontrado. Tente novamente!`);
-    }
-    
-    public jogo_deletado(id: number): void {
-        console.log(`Jogo de id ${id} deletado com sucesso!`);
-    }
-    
-    public jogo_editado(id: number): void {
-        console.log(`Jogo de id ${id} editado com sucesso!`);
-    }
-    
-    public acesso_negado(): void {
-        console.log(`Você não tem acesso para manter jogo.`);
+    mostrarJogos(jogos: Jogo[]): void {
+        console.log("Lista de jogos disponíveis:");
+        jogos.forEach(jogo => {
+            console.log(`${jogo.id}: ${jogo.getTitulo()} - R$ ${jogo.getPreco()}`);
+        });
     }
 
+    mostrarJogo(jogo: Jogo): void {
+        console.log(`Detalhes do jogo: ${jogo.getTitulo()} - Preço: R$ ${jogo.getPreco()}`);
+    }
+
+    mostrarJogoDeletado(id: number): void {
+        console.log(`Jogo com ID ${id} foi deletado.`);
+    }
 }

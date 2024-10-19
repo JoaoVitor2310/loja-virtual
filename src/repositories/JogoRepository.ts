@@ -1,8 +1,8 @@
-import { JogoRepositoryInterface } from '../interfaces/JogoRepositoryIInterface';
-import { Jogo } from './Jogo';
+import { JogoRepositoryInterface } from "../interfaces/JogoRepositoryIInterface";
+import { Jogo } from "../models/Jogo";
 
-export class JogoModel implements JogoRepositoryInterface {
-    private static instance: JogoModel;
+export class JogoRepository implements JogoRepositoryInterface {
+    private static instance: JogoRepository;
     private jogos: Jogo[] = [
         new Jogo(1, "Red Dead Redemption 2", "Rockstar Games", "PC", "2018-10-26", 300, "Jogo de velho oeste.", 10, 'Ação e aventura'),
         new Jogo(2, "Grand Theft Auto V", "Rockstar Games", "PC", "2013-09-17", 200, "Jogo de mundo aberto.", 15, 'Ação')
@@ -10,11 +10,11 @@ export class JogoModel implements JogoRepositoryInterface {
 
     private constructor() {}
 
-    public static getInstance(): JogoModel { // DP: Singleton
-        if (!JogoModel.instance) {
-            JogoModel.instance = new JogoModel();
+    public static getInstance(): JogoRepository {
+        if (!JogoRepository.instance) {
+            JogoRepository.instance = new JogoRepository();
         }
-        return JogoModel.instance;
+        return JogoRepository.instance;
     }
 
     public cadastrar(jogo: Jogo): void {
@@ -46,7 +46,6 @@ export class JogoModel implements JogoRepositoryInterface {
             jogoExiste.setPreco(jogoAtualizado.getPreco());
             jogoExiste.setDescricao(jogoAtualizado.getDescricao());
             jogoExiste.setQuantidade(jogoAtualizado.getQuantidade());
-            jogoExiste.setCategoria(jogoAtualizado.getCategoria());
         }
     }
 }
