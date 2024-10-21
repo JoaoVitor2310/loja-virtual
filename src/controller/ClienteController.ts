@@ -1,6 +1,4 @@
-import * as readlineSync from 'readline-sync';
 import { UsuarioController } from './UsuarioController';
-import { ClienteModel } from '../models/ClienteModel';
 import { ClienteView } from '../views/ClienteView';
 import { Cliente } from '../models/Cliente';
 import { ClienteService } from '../services/ClienteService';

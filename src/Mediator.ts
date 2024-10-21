@@ -3,8 +3,6 @@ import { ClienteController } from "./controller/ClienteController";
 import { JogoController } from "./controller/JogoController";
 import { PedidoController } from "./controller/PedidoController";
 import { Mediator } from "./interfaces/Mediator";
-import { AdminModel } from "./models/AdminModel";
-import { ClienteModel } from "./models/ClienteModel";
 import { AdminRepository } from "./repositories/AdminRepository";
 import { ClienteRepository } from "./repositories/ClienteRepository";
 import { JogoRepository } from "./repositories/JogoRepository";
