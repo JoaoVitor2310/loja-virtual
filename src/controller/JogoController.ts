@@ -1,9 +1,5 @@
 import * as readlineSync from 'readline-sync';
-import { JogoModel } from '../models/JogoModel';
-import { JogoView } from '../views/JogoView';
 import { Jogo } from '../models/Jogo';
-import { AdminModel } from '../models/AdminModel';
-import { AutenticacaoServiceInterface } from '../interfaces/AutenticacaoServiceInterface';
 import { JogoViewInterface } from '../interfaces/JovoViewInterface';
 import { JogoService } from '../services/JogoService';
 

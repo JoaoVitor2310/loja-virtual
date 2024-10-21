@@ -5,10 +5,10 @@ import { PedidoController } from "./controller/PedidoController";
 import { Mediator } from "./interfaces/Mediator";
 import { AdminModel } from "./models/AdminModel";
 import { ClienteModel } from "./models/ClienteModel";
-import { JogoModel } from "./models/JogoModel";
-import { PedidoModel } from "./models/PedidoModel";
 import { JogoRepository } from "./repositories/JogoRepository";
+import { PedidoRepository } from "./repositories/PedidoRepository";
 import { JogoService } from "./services/JogoService";
+import { PedidoService } from "./services/PedidoService";
 import { AdminView } from "./views/AdminView";
 import { ClienteView } from "./views/ClienteView";
 import { JogoView } from "./views/JogoView";
@@ -38,10 +38,11 @@ export class SistemaMediator implements Mediator {
                 break;
             }
             case '4': {
-                const pedidoModel = PedidoModel.getInstance();
+                const pedidoRepository = PedidoRepository.getInstance();
                 const pedidoView = new PedidoView();
-                const jogoModel = JogoModel.getInstance();
-                const pedidoController = new PedidoController(pedidoModel, pedidoView, jogoModel);
+                const pedidoService = new PedidoService(pedidoRepository);
+                const jogoRepository = JogoRepository.getInstance();
+                const pedidoController = new PedidoController(pedidoService, pedidoView, jogoRepository);
                 pedidoController.iniciar();
                 break;
             }

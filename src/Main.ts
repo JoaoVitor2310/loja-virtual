@@ -1,16 +1,4 @@
 import * as readlineSync from 'readline-sync';
-import { ClienteController } from './controller/ClienteController';
-import { ClienteModel } from './models/ClienteModel';
-import { ClienteView } from './views/ClienteView';
-import { AdminView } from './views/AdminView';
-import { AdminModel } from './models/AdminModel';
-import { AdminController } from './controller/AdminController';
-import { JogoModel } from './models/JogoModel';
-import { JogoView } from './views/JogoView';
-import { JogoController } from './controller/JogoController';
-import { PedidoController } from './controller/PedidoController';
-import { PedidoView } from './views/PedidoView';
-import { PedidoModel } from './models/PedidoModel';
 import { SistemaMediator } from './Mediator';
 
 export class Main {
