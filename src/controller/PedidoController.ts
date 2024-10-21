@@ -105,32 +105,32 @@ export class PedidoController {
 
             switch (opcao) {
                 case '1': {
-                    const id = Number(readlineSync.question("Qual é o ID do pedido? "));
-                    const idJogo = Number(readlineSync.question("Qual é o ID do jogo? "));
-                    const quantidade = Number(readlineSync.question("Qual é a quantidade do jogo? "));
+                    const id = Number(readlineSync.question("Qual eh o ID do pedido? "));
+                    const idJogo = Number(readlineSync.question("Qual eh o ID do jogo? "));
+                    const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
                     this.criarPedido(id, idJogo, quantidade);
                     break;
                 }
                 case '2': {
-                    const idPedido = Number(readlineSync.question("Qual é o ID do pedido? "));
-                    const idJogo = Number(readlineSync.question("Qual é o ID do jogo? "));
-                    const quantidade = Number(readlineSync.question("Qual é a quantidade do jogo? "));
+                    const idPedido = Number(readlineSync.question("Qual eh o ID do pedido? "));
+                    const idJogo = Number(readlineSync.question("Qual eh o ID do jogo? "));
+                    const quantidade = Number(readlineSync.question("Qual eh a quantidade do jogo? "));
                     this.adicionarJogoAoPedido(idPedido, idJogo, quantidade);
                     break;
                 }
                 case '3': {
-                    const idPedido = Number(readlineSync.question("Qual é o ID do pedido? "));
+                    const idPedido = Number(readlineSync.question("Qual eh o ID do pedido? "));
                     this.finalizarPedido(idPedido);
                     break;
                 }
                 case '4': {
-                    const idPedido = Number(readlineSync.question("Qual é o ID do pedido? "));
-                    const formaPagamento = readlineSync.question("Qual é a forma de pagamento? ");
+                    const idPedido = Number(readlineSync.question("Qual eh o ID do pedido? "));
+                    const formaPagamento = readlineSync.question("Qual eh a forma de pagamento? ");
                     this.realizarPagamento(idPedido, formaPagamento);
                     break;
                 }
                 case '5': {
-                    const idPedido = Number(readlineSync.question("Qual é o ID do pedido? "));
+                    const idPedido = Number(readlineSync.question("Qual eh o ID do pedido? "));
                     this.mostrarPedido(idPedido);
                     break;
                 }
@@ -138,7 +138,7 @@ export class PedidoController {
                     console.log("Saindo...");
                     break;
                 default:
-                    console.log("Opção inválida. Tente novamente.");
+                    console.log("Opcao invalida. Tente novamente.");
             }
         } while (opcao !== '0');
     }

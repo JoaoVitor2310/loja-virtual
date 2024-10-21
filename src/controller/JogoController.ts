@@ -112,7 +112,7 @@ export class JogoController {
                     console.log("Saindo do sistema...");
                     break;
                 default:
-                    console.log("Opção inválida! Tente novamente.");
+                    console.log("Opcao invalida! Tente novamente.");
             }
 
         } while (opcao !== '0');

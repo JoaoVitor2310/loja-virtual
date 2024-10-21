@@ -5,8 +5,12 @@ import { PedidoController } from "./controller/PedidoController";
 import { Mediator } from "./interfaces/Mediator";
 import { AdminModel } from "./models/AdminModel";
 import { ClienteModel } from "./models/ClienteModel";
+import { AdminRepository } from "./repositories/AdminRepository";
+import { ClienteRepository } from "./repositories/ClienteRepository";
 import { JogoRepository } from "./repositories/JogoRepository";
 import { PedidoRepository } from "./repositories/PedidoRepository";
+import { AdminService } from "./services/AdminService";
+import { ClienteService } from "./services/ClienteService";
 import { JogoService } from "./services/JogoService";
 import { PedidoService } from "./services/PedidoService";
 import { AdminView } from "./views/AdminView";
@@ -18,15 +22,17 @@ export class SistemaMediator implements Mediator {
     executarComando(comando: string): void {
         switch (comando) {
             case '1':
-                const clienteModel = ClienteModel.getInstance();
                 const clienteView = new ClienteView();
-                const clienteController = new ClienteController(clienteModel, clienteView);
+                const clienteRepository = ClienteRepository.getInstance();
+                const clienteService = new ClienteService(clienteRepository);
+                const clienteController = new ClienteController(clienteService, clienteView);
                 clienteController.iniciar();
                 break;
             case '2':
-                const adminModel = AdminModel.getInstance();
                 const adminView = new AdminView();
-                const adminController = new AdminController(adminModel, adminView);
+                const adminRepository =AdminRepository.getInstance();
+                const adminService = new AdminService(adminRepository);
+                const adminController = new AdminController(adminService, adminView);
                 adminController.iniciar();
                 break;
             case '3': {
@@ -50,7 +56,7 @@ export class SistemaMediator implements Mediator {
                 console.log("Saindo...");
                 break;
             default:
-                console.log("Opção inválida. Tente novamente.");
+                console.log("Opcao invalida. Tente novamente.");
         }
     }
 }

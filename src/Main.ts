@@ -12,12 +12,12 @@ export class Main {
             console.log("3 - JOGOS");
             console.log("4 - PEDIDO");
             console.log("5 - JOGO_PEDIDO");
-            console.log("10 - Sair");
+            console.log("0 - Sair");
 
             opcao = readlineSync.question("Escolha uma opcao: ");
             mediator.executarComando(opcao);
         }
-        while (opcao !== '10');
+        while (opcao !== '0');
     }
 }
 

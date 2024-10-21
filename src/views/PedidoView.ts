@@ -41,7 +41,7 @@ export class PedidoView implements PedidoViewInterface {
     }
 
     public mostrarTotalPedido(total: number): void {
-        console.log(`O total do pedido é: R$${total}`);
+        console.log(`O total do pedido eh: R$${total}`);
     }
 
     public listarPedidos(pedidos: Pedido[]): void {
